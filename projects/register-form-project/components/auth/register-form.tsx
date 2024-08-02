@@ -1,6 +1,17 @@
 "use client"
 
+
 import CardWrapper from "./card-wrapper"
+import { Form,
+  FormDescription,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  FormLabel
+ } from "@/components/ui/form"
+
+
 
 const RegisterForm = () => {
   return (
