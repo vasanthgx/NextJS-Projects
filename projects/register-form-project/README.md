@@ -1,5 +1,5 @@
 
-
+![alt text](image.png)
 
 ### Create Next.js Application
 First, we'll create a new Next.js project. Run the following command:
