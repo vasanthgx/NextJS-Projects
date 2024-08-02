@@ -17,6 +17,27 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { z } from "zod"
+import { useFormStatus } from "react-dom"
+import { useState } from "react"
+
+/**
+ * useFormStatus is a custom hook used to get the current form status of the form.
+ * It returns an object with the following properties:
+ * 1. isSubmitting: a boolean indicating whether the form is currently submitting.
+ * 2. isValidating: a boolean indicating whether the form is currently validating.
+ * 3. dirtyFields: an array of the fields that have been modified.
+ * 4. touchedFields: an array of the fields that have been touched.
+ * 5. isDirty: a boolean indicating whether the form is dirty or not.
+ * 6. isValid: a boolean indicating whether the form is valid or not.
+ * 
+ * This hook is particularly useful for understanding the current state of the form.
+ * It can be used to disable the submit button if the form is not valid and is currently submitting.
+ * It can also be used to show validation messages only when the field has been touched.
+ * 
+ * The useFormStatus hook is a wrapper around the useFormContext hook which is provided by react-hook-form.
+ * It extracts the form status from the form context and returns it as an object.
+ * 
+ * */
  
  
 
@@ -24,6 +45,8 @@ import { z } from "zod"
 
 
 const LoginForm = () => {
+
+  const [loading, setLoading] = useState(false);
 //creating a form using 'react-hook-form'
 const form = useForm({
   resolver: zodResolver(LoginSchema),
@@ -36,9 +59,11 @@ const form = useForm({
 });
 
 const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  setLoading(true);
   console.log(data);
 }
 
+const {pending} = useFormStatus();
 
   return (
     <CardWrapper
@@ -99,7 +124,12 @@ const onSubmit = (data: z.infer<typeof LoginSchema>) => {
           
 
         </div>
-        <Button className="w-full" type= "submit">Login</Button>
+        <Button className="w-full" type= "submit" disabled={pending}>
+          
+           {loading ? <p>Loading...</p> : "Login"}
+          
+          </Button>
+       
       
       </form>
 

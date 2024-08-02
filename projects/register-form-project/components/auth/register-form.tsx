@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { z } from "zod"
+import { useFormStatus } from "react-dom"
+import { useState } from "react"
  
  
 
@@ -24,6 +26,9 @@ import { z } from "zod"
 
 
 const RegisterForm = () => {
+
+  const [loading, setLoading] = useState(false);
+
 //creating a form using 'react-hook-form'
 const form = useForm({
   resolver: zodResolver(RegisterSchema),
@@ -37,9 +42,12 @@ const form = useForm({
 });
 
 const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
+  setLoading(true);
   console.log(data);
 }
 
+
+const {pending} = useFormStatus();
 
   return (
     <CardWrapper
@@ -128,7 +136,11 @@ const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
           />
 
         </div>
-        <Button className="w-full type=submit">Register</Button>
+        <Button className="w-full" type="submit" disabled={pending} >
+          {loading ? "Loading..." : "Register"}
+          
+          
+          </Button>
       
       </form>
 
